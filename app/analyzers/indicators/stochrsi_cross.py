@@ -48,7 +48,9 @@ class StochRSICross(IndicatorUtils):
         stoch_cross['is_hot'] = False
         stoch_cross['is_cold'] = False
 
-        stoch_cross.at[stoch_cross.index[-1], 'is_cold'] = previous_k > previous_d and current_k < current_d
-        stoch_cross.at[stoch_cross.index[-1], 'is_hot'] = previous_k < previous_d and current_k > current_d
+        # stoch_cross.at[stoch_cross.index[-1], 'is_cold'] = previous_k > previous_d and current_k < current_d
+        # stoch_cross.at[stoch_cross.index[-1], 'is_hot'] = previous_k < previous_d and current_k > current_d
+        stoch_cross.at[stoch_cross.index[-1], 'is_cold'] = current_k < previous_k
+        stoch_cross.at[stoch_cross.index[-1], 'is_hot'] =  current_k > previous_k      
 
         return stoch_cross
