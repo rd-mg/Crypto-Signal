@@ -58,7 +58,7 @@ class LRSI(IndicatorUtils):
 
         Args:
             historical_data (list): A matrix of historical OHCLV data.
-            signal (list, optional): Defaults to iiv. The indicator line to check hot against.
+            signal (list, optional): Defaults to lrsi. The indicator line to check hot against.
             hot_thresh (float, optional): Defaults to 0.2. The threshold at which this might be
                 good to purchase.
             cold_thresh: Defaults to 0.8. The threshold at which this might be
@@ -72,6 +72,6 @@ class LRSI(IndicatorUtils):
         dataframe = self.convert_to_dataframe(historical_data)
 
         dataframe['lrsi'] = dataframe.close.apply(
-            lambda x: self.apply_filter(x, 0.4))
+            lambda x: self.apply_filter(x, 0.7))
 
         return dataframe
