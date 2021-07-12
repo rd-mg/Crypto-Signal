@@ -1,4 +1,4 @@
-""" MACD Cross
+""" MACD Cross changed to macd up trend
 """
 
 import math
