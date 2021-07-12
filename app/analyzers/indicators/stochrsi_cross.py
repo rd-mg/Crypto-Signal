@@ -50,7 +50,7 @@ class StochRSICross(IndicatorUtils):
 
         # stoch_cross.at[stoch_cross.index[-1], 'is_cold'] = previous_k > previous_d and current_k < current_d
         # stoch_cross.at[stoch_cross.index[-1], 'is_hot'] = previous_k < previous_d and current_k > current_d
-        stoch_cross.at[stoch_cross.index[-1], 'is_cold'] = current_k < previous_k
-        stoch_cross.at[stoch_cross.index[-1], 'is_hot'] =  current_k > previous_k      
+        stoch_cross.at[stoch_cross.index[-1], 'is_cold'] = current_k < previous_k or current_k < current_d
+        stoch_cross.at[stoch_cross.index[-1], 'is_hot'] =  current_k > previous_k and current_k < 80      
 
         return stoch_cross
