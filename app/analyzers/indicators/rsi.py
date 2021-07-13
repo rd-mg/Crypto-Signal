@@ -51,11 +51,9 @@ class RSI(IndicatorUtils):
                 lower_max = lrsi_filter['lower_values']['max']
                 
                 lrsi_trend = dataframe['lrsi']
-                current_lrsi, previous_lrsi = lrsi_trend.iloc[-1], lrsi_trend.iloc[-2]
-                print(current_lrsi, previous_lrsi)
-
+       
                 idx = dataframe['lrsi'].apply(
-                    lambda x: x > lower_min and x < lower_max and current_lrsi >= previous_lrsi)
+                    lambda x: x > lower_min and x < lower_max and lrsi_trend.iloc[-1] >= lrsi_trend.iloc[-2])
                 rsi_values.loc[idx & (
                     rsi_values['is_hot'] == True), 'is_hot'] = False
 
