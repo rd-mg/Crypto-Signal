@@ -27,10 +27,10 @@ class LRSI(IndicatorUtils):
         l2_1 = self.l2
 
         g = gamma  # avoid more lookups
-        self.l0 = l0 = (1.0 - g) * price + g * l0_1
-        self.l1 = l1 = -g * l0 + l0_1 + g * l1_1
-        self.l2 = l2 = -g * l1 + l1_1 + g * l2_1
-        self.l3 = l3 = -g * l2 + l2_1 + g * self.l3
+        self.l0 = l0 =  g * price + (1 - g) * l0_1
+        self.l1 = l1 = -(1-g) * l0 + l0_1 + (1-g) * l1_1
+        self.l2 = l2 = -(1-g) * l1 + l1_1 + (1-g) * l2_1
+        self.l3 = l3 = -(1-g) * l2 + l2_1 + (1-g) * self.l3
 
         cu = 0.0
         cd = 0.0
@@ -49,9 +49,12 @@ class LRSI(IndicatorUtils):
         else:
             cd += l3 - l2
 
-        den = cu + cd
-
-        return 1.0 if not den else cu / den
+        if cu + cd != 0.00:
+            den = cu / (cu + cd) 
+        else:
+            den = 0.00
+        
+        return den
 
     def analyze(self, historical_data, signal=['lrsi']):
         """Performs a better implementation of RSI
