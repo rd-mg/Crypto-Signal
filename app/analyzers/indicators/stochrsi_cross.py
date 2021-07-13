@@ -10,7 +10,7 @@ from analyzers.utils import IndicatorUtils
 
 class StochRSICross(IndicatorUtils):
 
-    def analyze(self, historical_data, period_count=14, signal=['stoch_rsi'], smooth_k = 10, smooth_d = 3, hot_thresh=None, cold_thresh=None):
+    def analyze(self, historical_data, period_count=14, signal=['stoch_rsi'], smooth_k = 10, smooth_d = 3, hot_thresh=80, cold_thresh=None):
         """Performs a StochRSI cross analysis on the historical data
 
         Args:
@@ -18,7 +18,7 @@ class StochRSICross(IndicatorUtils):
             signal (list, optional): Defaults to macd
             smooth_k (integer): number of periods to calculate the smooth K line
             smooth_d (integer): number of periods to calculate the smooth D line
-            hot_thresh (float, optional): Unused for this indicator
+            hot_thresh (float, optional): MAX for this indicator
             cold_thresh (float, optional): Unused for this indicator            
 
         Returns:
@@ -48,9 +48,7 @@ class StochRSICross(IndicatorUtils):
         stoch_cross['is_hot'] = False
         stoch_cross['is_cold'] = False
 
-        # stoch_cross.at[stoch_cross.index[-1], 'is_cold'] = previous_k > previous_d and current_k < current_d
-        # stoch_cross.at[stoch_cross.index[-1], 'is_hot'] = previous_k < previous_d and current_k > current_d
-        stoch_cross.at[stoch_cross.index[-1], 'is_cold'] = current_k < previous_k or current_k < current_d
-        stoch_cross.at[stoch_cross.index[-1], 'is_hot'] =  current_k > previous_k and current_k < 80      
+        stoch_cross.at[stoch_cross.index[-1], 'is_cold'] = current_k < previous_k or current_k > hot_thresh or current_k < current_d
+        stoch_cross.at[stoch_cross.index[-1], 'is_hot'] =  current_k > previous_k and current_k < hot_thresh    
 
         return stoch_cross
