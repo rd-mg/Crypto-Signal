@@ -1,4 +1,4 @@
-""" MACD Cross
+""" MACD Cross changed to macd up trend
 """
 
 import math
@@ -41,7 +41,9 @@ class MACDCross(IndicatorUtils):
         macd_cross['is_hot'] = False
         macd_cross['is_cold'] = False
 
-        macd_cross.at[macd_cross.index[-1], 'is_hot'] = previous_macd < previous_signal and current_macd > current_signal
-        macd_cross.at[macd_cross.index[-1], 'is_cold'] = previous_macd > previous_signal and current_macd < current_signal
+        # macd_cross.at[macd_cross.index[-1], 'is_hot'] = previous_macd < previous_signal and current_macd > current_signal
+        # macd_cross.at[macd_cross.index[-1], 'is_cold'] = previous_macd > previous_signal and current_macd < current_signal
+        macd_cross.at[macd_cross.index[-1], 'is_hot'] =  (previous_macd < current_macd) and ((previous_macd - previous_signal) < (current_macd - current_signal))   
+        macd_cross.at[macd_cross.index[-1], 'is_cold'] = (previous_macd > current_macd) and ((previous_macd - previous_signal) > (current_macd - current_signal))
 
         return macd_cross

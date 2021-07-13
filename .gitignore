@@ -1,6 +1,7 @@
 .env
 settings.env
 config.yml
+config.yml.bk
 .vscode
 .idea/
 lib/ta-lib/

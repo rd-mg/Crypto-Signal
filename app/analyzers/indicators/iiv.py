@@ -23,7 +23,7 @@ class IIV(IndicatorUtils):
         """
 
         dataframe = self.convert_to_dataframe(historical_data)
-
+        # deleted abs in order to catch only pump
         z = np.abs(stats.zscore(dataframe['volume']))
         filtered = dataframe.volume[(z < 3)]
 
