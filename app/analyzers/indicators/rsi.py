@@ -50,8 +50,7 @@ class RSI(IndicatorUtils):
                 lower_min = lrsi_filter['lower_values']['min']
                 lower_max = lrsi_filter['lower_values']['max']
                 
-                lrsi_trend = dataframe['lrsi']
-       
+                lrsi_trend = dataframe['lrsi']       
                 idx = dataframe['lrsi'].apply(
                     lambda x: x > lower_min and x < lower_max and lrsi_trend.iloc[-1] >= lrsi_trend.iloc[-2])
                 rsi_values.loc[idx & (
