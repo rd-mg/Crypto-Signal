@@ -55,5 +55,7 @@ class RSI(IndicatorUtils):
                     lambda x: not (x > lower_min and x < lower_max and lrsi_trend.iloc[-1] >= lrsi_trend.iloc[-2]))
                 rsi_values.loc[idx & (
                     rsi_values['is_hot'] == True), 'is_hot'] = False
+                rsi_values.loc[idx & (
+                    rsi_values['is_cold'] == False), 'is_cold'] = True
 
         return rsi_values
