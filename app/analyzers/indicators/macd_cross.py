@@ -29,21 +29,19 @@ class MACDCross(IndicatorUtils):
         macd, macdsignal, macdhist = talib.MACD(
             dataframe['close'], fastperiod=12, slowperiod=26, signalperiod=9)
 
-        macd_values = pandas.DataFrame([macd, macdsignal]).T.rename(
-            columns={0: "macd", 1: "signal"})
+        macd_values = pandas.DataFrame([macd, macdhist]).T.rename(
+            columns={0: "macd", 1: "hist"})
 
         macd_cross = pandas.concat([dataframe, macd_values], axis=1)
         macd_cross.dropna(how='all', inplace=True)
 
-        previous_macd, previous_signal = macd_cross.iloc[-2]['macd'], macd_cross.iloc[-2]['signal']
-        current_macd, current_signal = macd_cross.iloc[-1]['macd'], macd_cross.iloc[-1]['signal']
+        previous_macd, previous_hist = macd_cross.iloc[-2]['macd'], macd_cross.iloc[-2]['hist']
+        current_macd, current_hist = macd_cross.iloc[-1]['macd'], macd_cross.iloc[-1]['hist']
 
         macd_cross['is_hot'] = False
         macd_cross['is_cold'] = False
 
-        # macd_cross.at[macd_cross.index[-1], 'is_hot'] = previous_macd < previous_signal and current_macd > current_signal
-        # macd_cross.at[macd_cross.index[-1], 'is_cold'] = previous_macd > previous_signal and current_macd < current_signal
-        macd_cross.at[macd_cross.index[-1], 'is_hot'] =  (previous_macd < current_macd) and ((previous_macd - previous_signal) < (current_macd - current_signal))   
-        macd_cross.at[macd_cross.index[-1], 'is_cold'] = (previous_macd > current_macd) and ((previous_macd - previous_signal) > (current_macd - current_signal))
-
+        macd_cross.at[macd_cross.index[-1], 'is_hot'] =  previous_macd < current_macd and previous_hist < current_hist
+        macd_cross.at[macd_cross.index[-1], 'is_cold'] = previous_macd > current_macd and previous_hist > current_hist
+        
         return macd_cross
